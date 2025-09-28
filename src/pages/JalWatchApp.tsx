@@ -73,17 +73,12 @@ const JalWatchApp = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Status Bar Background for mobile */}
-      <div className="h-safe-area-inset-top bg-primary/5"></div>
-      
-      {/* Main Content Container */}
-      <div className="pb-24 px-4 pt-6 max-w-md mx-auto min-h-screen">
-        <div className="animate-fade-in-up">
-          {renderMainContent()}
-        </div>
+      {/* Main Content */}
+      <div className="pb-20 px-4 pt-4 max-w-md mx-auto">
+        {renderMainContent()}
       </div>
 
-      {/* Enhanced Bottom Navigation */}
+      {/* Bottom Navigation */}
       <BottomNavigation 
         activeTab={currentView === 'station-detail' ? 'home' : currentView} 
         onTabChange={handleTabChange} 
