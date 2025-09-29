@@ -4,15 +4,39 @@ import { cn } from "@/lib/utils";
 interface BottomNavigationProps {
   activeTab: string;
   onTabChange: (tab: string) => void;
+  userRole: string;
 }
 
-export function BottomNavigation({ activeTab, onTabChange }: BottomNavigationProps) {
-  const tabs = [
-    { id: 'home', icon: Home, label: 'Home' },
-    { id: 'alerts', icon: AlertTriangle, label: 'Alerts' },
-    { id: 'dashboard', icon: BarChart3, label: 'Dashboard' },
-    { id: 'profile', icon: User, label: 'Profile' }
-  ];
+export function BottomNavigation({ activeTab, onTabChange, userRole }: BottomNavigationProps) {
+  const getTabsForRole = (role: string) => {
+    const baseTabs = [
+      { id: 'home', icon: Home, label: 'Home' },
+      { id: 'alerts', icon: AlertTriangle, label: 'Alerts' },
+    ];
+
+    switch (role) {
+      case 'researcher':
+        return [
+          ...baseTabs,
+          { id: 'researcher', icon: BarChart3, label: 'Research' },
+          { id: 'profile', icon: User, label: 'Profile' },
+        ];
+      case 'policymaker':
+        return [
+          ...baseTabs,
+          { id: 'policy', icon: BarChart3, label: 'Policy' },
+          { id: 'profile', icon: User, label: 'Profile' },
+        ];
+      default: // citizen
+        return [
+          ...baseTabs,
+          { id: 'dashboard', icon: BarChart3, label: 'Dashboard' },
+          { id: 'profile', icon: User, label: 'Profile' },
+        ];
+    }
+  };
+
+  const tabs = getTabsForRole(userRole);
 
   return (
     <div className="fixed bottom-0 left-0 right-0 bg-card border-t border-border z-50">

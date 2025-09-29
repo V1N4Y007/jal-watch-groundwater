@@ -4,12 +4,14 @@ import { StationMap } from "@/components/home/StationMap";
 import { StationDetail } from "@/components/station/StationDetail";
 import { AlertsList } from "@/components/alerts/AlertsList";
 import { PolicyDashboard } from "@/components/dashboard/PolicyDashboard";
+import { ResearcherDashboard } from "@/components/researcher/ResearcherDashboard";
+import { DecisionSupportDashboard } from "@/components/policymaker/DecisionSupportDashboard";
 import { UserProfile } from "@/components/profile/UserProfile";
 import { BottomNavigation } from "@/components/layout/BottomNavigation";
 import { type DWLRStation } from "@/data/mockData";
 
 type AppState = 'onboarding' | 'main';
-type MainView = 'home' | 'alerts' | 'dashboard' | 'profile' | 'station-detail';
+type MainView = 'home' | 'alerts' | 'dashboard' | 'researcher' | 'policy' | 'profile' | 'station-detail';
 
 const JalWatchApp = () => {
   const [appState, setAppState] = useState<AppState>('onboarding');
@@ -58,6 +60,10 @@ const JalWatchApp = () => {
         return <AlertsList />;
       case 'dashboard':
         return <PolicyDashboard />;
+      case 'researcher':
+        return <ResearcherDashboard />;
+      case 'policy':
+        return <DecisionSupportDashboard />;
       case 'profile':
         return <UserProfile userRole={userRole} onLogout={handleLogout} />;
       case 'station-detail':
@@ -81,7 +87,8 @@ const JalWatchApp = () => {
       {/* Bottom Navigation */}
       <BottomNavigation 
         activeTab={currentView === 'station-detail' ? 'home' : currentView} 
-        onTabChange={handleTabChange} 
+        onTabChange={handleTabChange}
+        userRole={userRole}
       />
     </div>
   );
