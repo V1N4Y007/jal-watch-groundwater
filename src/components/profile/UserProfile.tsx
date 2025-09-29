@@ -1,4 +1,5 @@
-import { User, Settings, Bell, Download, LogOut, Shield } from "lucide-react";
+import { useState } from "react";
+import { User, Settings, Bell, Download, LogOut, Shield, MapPin, Database } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
@@ -9,6 +10,11 @@ interface UserProfileProps {
 }
 
 export function UserProfile({ userRole, onLogout }: UserProfileProps) {
+  // Privacy Settings State
+  const [locationSharing, setLocationSharing] = useState(false);
+  const [notificationPreferences, setNotificationPreferences] = useState(true);
+  const [dataUsageOptIn, setDataUsageOptIn] = useState(false);
+
   const getRoleDisplay = (role: string) => {
     switch (role) {
       case 'citizen': return '👨‍👩‍👧‍👦 Citizen';
@@ -88,23 +94,71 @@ export function UserProfile({ userRole, onLogout }: UserProfileProps) {
         </CardContent>
       </Card>
 
-      {/* Data & Privacy */}
+      {/* Privacy Settings */}
       <Card>
         <CardHeader>
           <CardTitle className="text-base flex items-center space-x-2">
             <Shield className="h-4 w-4" />
-            <span>Data & Privacy</span>
+            <span>Privacy Settings</span>
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <MapPin className="h-4 w-4 text-muted-foreground" />
+              <div>
+                <p className="text-sm font-medium">Location Sharing</p>
+                <p className="text-xs text-muted-foreground">Share location for nearby station alerts</p>
+              </div>
+            </div>
+            <Switch 
+              checked={locationSharing}
+              onCheckedChange={setLocationSharing}
+            />
+          </div>
+          
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <Bell className="h-4 w-4 text-muted-foreground" />
+              <div>
+                <p className="text-sm font-medium">Alert Notifications</p>
+                <p className="text-xs text-muted-foreground">Get notified about water level changes</p>
+              </div>
+            </div>
+            <Switch 
+              checked={notificationPreferences}
+              onCheckedChange={setNotificationPreferences}
+            />
+          </div>
+          
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <Database className="h-4 w-4 text-muted-foreground" />
+              <div>
+                <p className="text-sm font-medium">Research Data Sharing</p>
+                <p className="text-xs text-muted-foreground">Contribute anonymized data for research</p>
+              </div>
+            </div>
+            <Switch 
+              checked={dataUsageOptIn}
+              onCheckedChange={setDataUsageOptIn}
+            />
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Data Management */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-base flex items-center space-x-2">
+            <Settings className="h-4 w-4" />
+            <span>Data Management</span>
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
           <Button variant="outline" className="w-full justify-start">
             <Download className="h-4 w-4 mr-2" />
             Export My Data
-          </Button>
-          
-          <Button variant="outline" className="w-full justify-start">
-            <Settings className="h-4 w-4 mr-2" />
-            Privacy Settings
           </Button>
         </CardContent>
       </Card>
